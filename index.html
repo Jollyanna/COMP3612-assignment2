@@ -12,7 +12,7 @@
     
     <link href="css/output.min.css" rel="stylesheet">
     <!-- <script src="assign2.js"></script> -->
-    <script src="old_assign2.js"></script>
+    <script src="assign2.js"></script>
 
 </head>
 
@@ -53,7 +53,7 @@
                 class="p-2 m-2 lg:p-3.5 lg:m-3 xl lg:text-2xl inline-block rounded 
                     bg-indigo-750 text-cream-50 
                     hover:bg-cream-50 hover:text-blue-960 no-underline">
-                Github Repository
+                    GitHub Repository
                 </a>
             </section> <!-- end of image and brief description -->
 
@@ -73,7 +73,7 @@
 
             <!-- footer for HOME VIEW -->
             <footer class="p-3 bg-pink-150 shadow text-center font-pt_sans text-sm lg:text-md">
-                <p>Visit the Github Repository link to view the credits for the images used!</p>
+                <p>Visit the GitHub Repository link to view the credits for the images used!</p>
                 <p>Copyright 2024 - Juliana Marie Tafalla - All Rights Reserved.</p>
             </footer>
 
@@ -138,7 +138,11 @@
                             <p id="name">race name:       <span class="font-bold italic text-lg lg:text-xl"></span></p>
                             <p id="round">round number:   <span class="font-bold italic text-lg lg:text-xl"></span></p>
                             <p id="year">year:            <span class="font-bold italic text-lg lg:text-xl"></span></p>
-                            <p id="circuit">circuit name: <button><span class="font-bold italic text-lg lg:text-xl hover:text-indigo-750"></span></button></p>
+                            <p id="circuit">circuit name: 
+                                <button>
+                                    <span class="font-bold italic text-lg lg:text-xl hover:text-indigo-750"></span>
+                                </button>
+                            </p>
                             <p id="date">date:            <span class="font-bold italic text-lg lg:text-xl"></span></p>
                             <p id="url">url:              <span class="font-bold italic text-lg lg:text-xl"></span></p>
                         </div>
@@ -154,11 +158,9 @@
                                 <table id="qualifyTable" class="mx-auto my-2 text-left h-96">
                                     <thead class="font-roboto_con text-lg">
                                         <tr>
-                                            <th class="pr-10">Pos</th>
+                                            <th class="pr-5">Pos</th>
                                             <th class="pr-10">Name</th>
-                                            <th class="pr-10"></th>
                                             <th class="pr-10">Const</th>
-                                            <th class="pr-10"></th>
                                             <th class="pr-10">Q1</th>
                                             <th class="pr-10">Q2</th>
                                             <th class="pr-10">Q3</th>
@@ -174,8 +176,7 @@
 
                         <!-- results -->
                         <div id="result" class="p-2 bg-pink-150 border-2 border-blue-960 max-w-2xl">
-                            <!-- TEST -->
-                            <img src="images/ranking_icon.png" class="mx-auto w-12"/>
+                            <img src="images/ranking_icon.png" alt="A trophy icon for the ranking" class="mx-auto w-12"/>
 
                             <h3 class="text-center font-roboto_con font-medium text-xl">Results</h3>
 
@@ -196,7 +197,7 @@
                                 <table id="resultTable" class="mx-auto my-3 text-left h-80">
                                     <thead class="font-roboto_con text-lg">
                                         <tr>
-                                            <th class="pr-10">Pos</th>
+                                            <th class="pr-5">Pos</th>
                                             <th class="pr-10">Name</th>
                                             <th class="pr-10">Const</th>
                                             <th class="pr-10">Laps</th>
@@ -216,7 +217,7 @@
 
             <!-- footer for RACES VIEW -->
             <footer class="p-3 bg-pink-150 shadow text-center font-pt_sans text-sm lg:text-md">
-                <p>Visit the Github Repository link to view the credits for the images used!</p>
+                <p>Visit the GitHub Repository link to view the credits for the images used!</p>
                 <p>Copyright 2024 - Juliana Marie Tafalla - All Rights Reserved.</p>
             </footer>
 
@@ -225,216 +226,244 @@
         <!---->
         
         <!-- CONSTRUCTOR POPUP -->
-        <aside id="constructor" class="hidden">
-            <!-- guided by: https://www.creative-tim.com/twcomponents/component/tailwind-css-horizontal-card-by-material-tailwind -->
-            <div class="px-4 py-8 flex flex-wrap min-h-screen items-center justify-center">
-                <div class="p-4 relative flex flex-wrap w-full max-w-[48rem] flex-row rounded-xl bg-cream-50 bg-clip-border shadow-md">
-                    <!-- close button -->
-                    <div class="basis-full">
-                        <button id="close" 
-                            class="p-1 m-1 px-2 mx-auto float-right text-md font-bold text-center rounded 
-                                bg-indigo-750 text-cream-50 font-roboto_con 
-                                hover:bg-cream-50 hover:text-blue-960">
-                            X
-                        </button>
-                    </div> <!-- end of close button -->
+        <dialog id="constructor">
+            <!-- guided by (and modified, if any, from): https://tailwindui.com/components/application-ui/overlays/modal-dialogs -->
+            <div class="fixed inset-0 bg-gray-500/75 transition-opacity" data-modal-backdrop="static" aria-hidden="true">
+                <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+                    <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
 
-                    <!-- constructor details -->
-                    <div id="constDetails" class="border-8 border-indigo-750 m-2 my-auto p-2 bg-pink-150 max-w-xl max-h-96">
-                        <h3 class="text-center font-roboto_con font-medium text-xl">Constructor Details</h3>
-                        
-                        <!--(JS)-->
-                        <div class="pt-2 font-pt_sans text-md max-w-xs">
-                            <p id="name">name: </p>
-                            <p id="nationality">nationality: </p>
-                            <p id="url">url: </p>
+                        <!-- guided by (and modified, if any, from): https://www.creative-tim.com/twcomponents/component/tailwind-css-horizontal-card-by-material-tailwind -->
+                        <div class="px-4 py-8 flex flex-wrap min-h-screen items-center justify-center">
+                            <div class="p-4 relative flex flex-wrap w-full max-w-5xl flex-row rounded-xl bg-cream-50 bg-clip-border shadow-md justify-center">
+                                <!-- close button -->
+                                <div class="basis-full">
+                                    <button id="close" 
+                                        class="p-1 m-1 px-2 mx-auto float-right text-md font-bold text-center rounded 
+                                            bg-indigo-750 text-cream-50 font-roboto_con 
+                                            hover:bg-cream-50 hover:text-blue-960">
+                                        X
+                                    </button>
+                                </div> <!-- end of close button -->
 
-                            <!-- favourite button -->
-                            <button id="addToFave" 
-                                class="p-2 mt-4 mx-auto flex justify-center text-lg text-center rounded 
-                                    bg-indigo-750 text-cream-50 font-roboto_con 
-                                    hover:bg-cream-50 hover:text-blue-960 no-underline">
-                                Favourite
-                            </button> <!-- end of favourite button --> 
-                        </div> 
-                    </div> <!-- end of constructor details -->
-
-                    <!-- race results -->
-                    <div id="raceResultsConst" class="border-8 border-indigo-750 m-2 p-2 bg-pink-150 max-w-xl">
-                        <h3 class="text-center font-roboto_con font-medium text-xl">Race Results</h3>
-                        
-                        <div class="mx-auto h-96 overflow-y-scroll">
-                            <table id="raceTable" class="my-2 text-left">
-                                <thead class="font-roboto_con text-lg">
-                                    <tr>
-                                        <th class="pr-10">Rnd</th>
-                                        <th class="pr-10">Name</th>
-                                        <th class="pr-10">Driver</th>
-                                        <th class="pr-10">Pos</th>
-                                        <th class="pr-10"></th>
-                                    </tr>
-                                </thead>
-
-                                <tbody class="font-pt_sans text-md">
+                                <!-- constructor details -->
+                                <div id="constructDetails" class="border-8 border-indigo-750 m-2 my-auto p-2 bg-pink-150 max-w-xl max-h-96">
+                                    <h3 class="text-center font-roboto_con font-medium text-xl">Constructor Details</h3>
+                                    
                                     <!--(JS)-->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div> <!-- end of race results -->
+                                    <div class="pt-2 font-pt_sans text-md max-w-xs">
+                                        <p id="name">name:                  <span class="font-bold italic text-lg"></span></p>
+                                        <p id="nationality">nationality:    <span class="font-bold italic text-lg"></span></p>
+                                        <p id="url">url:                    <span class="font-bold italic text-lg"></span></p>
 
-                    <!-- close button -->
-                    <div class="basis-full pt-2">
-                        <button id="close" 
-                            class="p-2 m-2 mx-auto flex justify-center text-lg text-center rounded 
-                                bg-indigo-750 text-cream-50 font-roboto_con 
-                                hover:bg-cream-50 hover:text-blue-960">
-                            Close
-                        </button>
-                    </div> <!-- end of close button -->
+                                        <!-- favourite button -->
+                                        <button id="addToFave" 
+                                            class="p-2 mt-4 mx-auto flex justify-center text-lg text-center rounded 
+                                                bg-indigo-750 text-cream-50 font-roboto_con 
+                                                hover:bg-cream-50 hover:text-blue-960 no-underline">
+                                            Favourite
+                                        </button> <!-- end of favourite button --> 
+                                    </div> 
+                                </div> <!-- end of constructor details -->
+
+                                <!-- race results -->
+                                <div id="raceResultsConstruct" class="border-8 border-indigo-750 m-2 p-2 bg-pink-150 max-w-xl">
+                                    <h3 class="text-center font-roboto_con font-medium text-xl">Race Results</h3>
+                                    
+                                    <div class="mx-auto h-96 overflow-y-scroll">
+                                        <table id="raceTable" class="my-2 text-left">
+                                            <thead class="font-roboto_con text-lg">
+                                                <tr>
+                                                    <th class="pr-10">Rnd</th>
+                                                    <th class="pr-10">Name</th>
+                                                    <th class="pr-10">Driver</th>
+                                                    <th class="pr-10">Pos</th>
+                                                    <th class="pr-10"></th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody class="font-pt_sans text-md">
+                                                <!--(JS)-->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div> <!-- end of race results -->
+
+                                <!-- close button -->
+                                <div class="basis-full pt-2">
+                                    <button id="close" 
+                                        class="p-2 m-2 mx-auto flex justify-center text-lg text-center rounded 
+                                            bg-indigo-750 text-cream-50 font-roboto_con 
+                                            hover:bg-cream-50 hover:text-blue-960">
+                                        Close
+                                    </button>
+                                </div> <!-- end of close button -->
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
-        </aside> <!-- end of CONSTRUCTOR POPUP -->
+        </dialog> <!-- end of CONSTRUCTOR POPUP -->
 
         <!---->
 
         <!-- DRIVER POPUP -->
-        <aside id="driver" class="hidden">
-            <!-- guided by: https://www.creative-tim.com/twcomponents/component/tailwind-css-horizontal-card-by-material-tailwind -->
-            <div class="px-4 py-8 flex flex-wrap min-h-screen items-center justify-center">
-                <div class="p-4 relative flex flex-wrap w-full max-w-[48rem] flex-row rounded-xl bg-cream-50 bg-clip-border shadow-md">
-                    <!-- close button -->
-                    <div class="basis-full">
-                        <button id="close" 
-                            class="p-1 m-1 px-2 mx-auto float-right text-md font-bold text-center rounded 
-                                bg-indigo-750 text-cream-50 font-roboto_con 
-                                hover:bg-cream-50 hover:text-blue-960">
-                            X
-                        </button>
-                    </div> <!-- end of close button -->
+        <dialog id="driver">
+            <!-- guided by (and modified, if any, from): https://tailwindui.com/components/application-ui/overlays/modal-dialogs -->
+            <div class="fixed inset-0 bg-gray-500/75 transition-opacity" data-modal-backdrop="static" aria-hidden="true">
+                <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+                    <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
 
-                    <div id="driverDetails" class="border-8 border-indigo-750 m-2 my-auto p-2 bg-pink-150 max-w-xl">
-                        <!--(JS)-->
-                        <img src="images/home_mainImg.png" alt="Chosen driver's photo" class="w-64"/>
-                        
-                        <h3 class="text-center font-roboto_con font-medium text-xl">Driver Details</h3>
-                        
-                        <!--(JS)-->
-                        <div class="pt-2 font-pt_sans text-md max-w-xs">
-                            <p id="name">name: </p>
-                            <p id="dob">date of birth: </p>
-                            <p id="age">age: </p>
-                            <p id="nationality">nationality: </p>
-                            <p id="url">url: </p>
+                        <!-- guided by (and modified, if any, from): https://www.creative-tim.com/twcomponents/component/tailwind-css-horizontal-card-by-material-tailwind -->
+                        <div class="px-4 py-8 flex flex-wrap min-h-screen items-center justify-center">
+                            <div class="p-4 relative flex flex-wrap w-full max-w-4xl flex-row rounded-xl bg-cream-50 bg-clip-border shadow-md justify-center">
+                                <!-- close button -->
+                                <div class="basis-full">
+                                    <button id="close" 
+                                        class="p-1 m-1 px-2 mx-auto float-right text-md font-bold text-center rounded 
+                                            bg-indigo-750 text-cream-50 font-roboto_con 
+                                            hover:bg-cream-50 hover:text-blue-960">
+                                        X
+                                    </button>
+                                </div> <!-- end of close button -->
 
-                            <!-- favourite button -->
-                            <button id="addToFave" 
-                                class="p-2 mt-4 mx-auto flex justify-center text-lg text-center rounded 
-                                bg-indigo-750 text-cream-50 font-roboto_con 
-                                hover:bg-cream-50 hover:text-blue-960 no-underline">
-                                Favourite
-                            </button> <!-- end of favourite button -->
-                        </div>
-                    </div> <!-- end of driver details -->
-
-                    <!-- race results -->
-                    <div id="raceResultsConst" class="border-8 border-indigo-750 m-2 p-2 bg-pink-150 max-w-xl">
-                        <h3 class="text-center font-roboto_con font-medium text-xl">Race Results</h3>
-                        
-                        <div class="mx-auto h-96 overflow-y-scroll">
-                            <table id="raceTable" class="my-2 text-left">
-                                <thead class="font-roboto_con text-lg">
-                                    <tr>
-                                        <th class="pr-10">Rnd</th>
-                                        <th class="pr-10">Name</th>
-                                        <th class="pr-10">Pos</th>
-                                        <th class="pr-10">Pts</th>
-                                        <th class="pr-10"></th>
-                                    </tr>
-                                </thead>
-
-                                <tbody class="font-pt_sans text-md">
+                                <div id="driverDetails" class="border-8 border-indigo-750 m-2 my-auto p-2 bg-pink-150 max-w-xl">
                                     <!--(JS)-->
-                                </tbody>
-                            </table>
+                                    <img src="images/home_mainImg.png" alt="Chosen driver's photo" class="mx-auto w-64"/>
+                                    
+                                    <h3 class="text-center font-roboto_con font-medium text-xl">Driver Details</h3>
+                                    
+                                    <!--(JS)-->
+                                    <div class="pt-2 font-pt_sans text-md max-w-xs">
+                                        <p id="name">name:                  <span class="font-bold italic text-lg"></span></p>
+                                        <p id="dob">date of birth:          <span class="font-bold italic text-lg"></span></p>
+                                        <p id="age">age:                    <span class="font-bold italic text-lg"></span></p>
+                                        <p id="nationality">nationality:    <span class="font-bold italic text-lg"></span></p>
+                                        <p id="url">url:                    <span class="font-bold italic text-lg"></span></p>
+                                        
+                                        <!-- favourite button -->
+                                        <button id="addToFave" 
+                                            class="p-2 mt-4 mx-auto flex justify-center text-lg text-center rounded 
+                                                bg-indigo-750 text-cream-50 font-roboto_con 
+                                                hover:bg-cream-50 hover:text-blue-960 no-underline">
+                                            Favourite
+                                        </button> <!-- end of favourite button -->
+                                        
+                                    </div>
+                                </div> <!-- end of driver details -->
+
+                                <!-- race results -->
+                                <div id="raceResultsDriver" class="border-8 border-indigo-750 m-2 p-2 bg-pink-150 max-w-xl">
+                                    <h3 class="text-center font-roboto_con font-medium text-xl">Race Results</h3>
+                                    
+                                    <div class="mx-auto h-96 overflow-y-scroll">
+                                        <table id="raceTable" class="my-2 text-left">
+                                            <thead class="font-roboto_con text-lg">
+                                                <tr>
+                                                    <th class="pr-10">Rnd</th>
+                                                    <th class="pr-10">Name</th>
+                                                    <th class="pr-10">Pos</th>
+                                                    <th class="pr-10">Pts</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody class="font-pt_sans text-md">
+                                                <!--(JS)-->
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div> <!-- end of race results -->
+
+                                <!-- close button -->
+                                <div class="basis-full pt-2">
+                                    <button id="close" 
+                                        class="p-2 m-2 mx-auto flex justify-center text-lg text-center rounded 
+                                            bg-indigo-750 text-cream-50 font-roboto_con 
+                                            hover:bg-cream-50 hover:text-blue-960">
+                                        Close
+                                    </button>
+                                </div> <!-- end of close button -->
+                            </div>
                         </div>
 
-                    </div> <!-- end of race results -->
-
-                    <!-- close button -->
-                    <div class="basis-full pt-2">
-                        <button id="close" 
-                            class="p-2 m-2 mx-auto flex justify-center text-lg text-center rounded 
-                                bg-indigo-750 text-cream-50 font-roboto_con 
-                                hover:bg-cream-50 hover:text-blue-960">
-                            Close
-                        </button>
-                    </div> <!-- end of close button -->
+                    </div>
                 </div>
             </div>
-        </aside> <!-- end of DRIVER POPUP -->
+        </dialog> <!-- end of DRIVER POPUP -->
 
         <!---->
 
         <!-- CIRCUIT POPUP -->
-        <aside id="circuit" class="hidden">
-            <!-- guided by: https://www.creative-tim.com/twcomponents/component/tailwind-css-horizontal-card-by-material-tailwind -->
-            <div class="px-4 py-8 flex flex-wrap min-h-screen items-center justify-center">
-                <div class="p-4 relative flex flex-wrap w-full max-w-[48rem] flex-row rounded-xl bg-cream-50 bg-clip-border shadow-md">
-                    <!-- close button -->
-                    <div class="basis-full">
-                        <button id="close" 
-                            class="p-1 m-1 px-2 mx-auto float-right text-md font-bold text-center rounded 
-                                bg-indigo-750 text-cream-50 font-roboto_con 
-                                hover:bg-cream-50 hover:text-blue-960">
-                            X
-                        </button>
-                    </div> <!-- end of close button -->
-
-                    <div id="circuitDetails" class="border-8 border-indigo-750 m-2 my-auto p-2 bg-pink-150 max-w-xl">
-                        <h3 class="text-center font-roboto_con font-medium text-xl">Circuit Details</h3>
+        <dialog id="circuit">
+            <!-- guided by (and modified, if any, from): https://tailwindui.com/components/application-ui/overlays/modal-dialogs -->
+            <div class="fixed inset-0 bg-gray-500/75 transition-opacity" data-modal-backdrop="static" aria-hidden="true">
+                <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+                    <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
                         
-                        <!--(JS)-->
-                        <div class="pt-2 font-pt_sans text-md max-w-xs">
-                            <p id="name">name: </p>
-                            <p id="location">location: </p>
-                            <p id="country">country: </p>
-                            <p id="url">url: </p>
+                        <!-- [NEW] max-w-4xl; justify-center added to the second div -->
+                        <!-- guided by (and modified, if any, from): https://www.creative-tim.com/twcomponents/component/tailwind-css-horizontal-card-by-material-tailwind -->
+                        <div class="px-4 py-8 flex flex-wrap min-h-screen items-center justify-center">
+                            <div class="p-4 relative flex flex-wrap w-full max-w-4xl flex-row rounded-xl bg-cream-50 bg-clip-border shadow-md justify-center">
+                                <!-- close button -->
+                                <div class="basis-full">
+                                    <button id="close" 
+                                        class="p-1 m-1 px-2 mx-auto float-right text-md font-bold text-center rounded 
+                                            bg-indigo-750 text-cream-50 font-roboto_con 
+                                            hover:bg-cream-50 hover:text-blue-960">
+                                        X
+                                    </button>
+                                </div> <!-- end of close button -->
 
-                            <!-- favourite button -->
-                            <button id="addToFave" 
-                                class="p-2 mt-4 mx-auto flex justify-center text-lg text-center rounded 
-                                    bg-indigo-750 text-cream-50 font-roboto_con 
-                                    hover:bg-cream-50 hover:text-blue-960 no-underline">
-                                Favourite
-                            </button> <!-- end of favourite button -->
-                        </div>  
+                                <div id="circuitDetails" class="border-8 border-indigo-750 m-2 my-auto p-2 bg-pink-150 max-w-xl">
+                                    <h3 class="text-center font-roboto_con font-medium text-xl">Circuit Details</h3>
+                                    
+                                    <!--(JS)-->
+                                    <div class="pt-2 font-pt_sans text-md max-w-xs">
+                                        <p id="name">name:          <span class="font-bold italic text-lg"></span></p>
+                                        <p id="location">location:  <span class="font-bold italic text-lg"></span></p>
+                                        <p id="country">country:    <span class="font-bold italic text-lg"></span></p>
+                                        <p id="url">url:            <span class="font-bold italic text-lg"></span></p>
 
-                    </div> <!-- end of circuit details -->
+                                        <!-- favourite button -->
+                                        <button id="addToFave" 
+                                            class="p-2 mt-4 mx-auto flex justify-center text-lg text-center rounded 
+                                                bg-indigo-750 text-cream-50 font-roboto_con 
+                                                hover:bg-cream-50 hover:text-blue-960 no-underline">
+                                            Favourite
+                                        </button> <!-- end of favourite button -->
+                                    </div>  
 
-                    <!-- circuit image -->
-                    <div id="circuitImg" class="border-8 border-indigo-750 m-2 p-2 bg-pink-150 max-w-xl">
-                        <!--(JS)-->
-                        <img src="images/home_mainImg.png" alt="Chosen circuit's photo" class="max-w-96"/>
-                    </div> <!-- end of circuit image -->
+                                </div> <!-- end of circuit details -->
 
-                    <!-- close button -->
-                    <div class="basis-full pt-2">
-                        <button id="close" 
-                            class="p-2 m-2 mx-auto flex justify-center text-lg text-center rounded 
-                                bg-indigo-750 text-cream-50 font-roboto_con 
-                                hover:bg-cream-50 hover:text-blue-960">
-                            Close
-                        </button>
-                    </div> <!-- end of close button -->
+                                <!-- circuit image -->
+                                <div id="circuitImg" class="border-8 border-indigo-750 m-2 p-2 bg-pink-150 max-w-xl">
+                                    <!--(JS)-->
+                                    <img src="images/home_mainImg.png" alt="Chosen circuit's photo" class="max-w-96"/>
+                                </div> <!-- end of circuit image -->
+
+                                <!-- close button -->
+                                <div class="basis-full pt-2">
+                                    <button id="close" 
+                                        class="p-2 m-2 mx-auto flex justify-center text-lg text-center rounded 
+                                            bg-indigo-750 text-cream-50 font-roboto_con 
+                                            hover:bg-cream-50 hover:text-blue-960">
+                                        Close
+                                    </button>
+                                </div> <!-- end of close button -->
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
-        </aside>  <!-- end of CIRCUIT POPUP -->
+        </dialog>  <!-- end of CIRCUIT POPUP -->
 
         <!---->
 
         <!-- FAVOURITES POPUP -->
         <aside id="favourites" class="hidden">
-            <!-- guided by: https://www.creative-tim.com/twcomponents/component/tailwind-css-horizontal-card-by-material-tailwind -->
+            <!-- guided by (and modified, if any, from): https://www.creative-tim.com/twcomponents/component/tailwind-css-horizontal-card-by-material-tailwind -->
             <div class="px-4 py-8 flex flex-wrap min-h-screen items-center justify-center">
                 <div class="p-4 relative flex flex-wrap items-center justify-center w-full max-w-7xl flex-row rounded-xl bg-cream-50 bg-clip-border shadow-md">
                     <!-- close button -->
