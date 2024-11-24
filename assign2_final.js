@@ -1,11 +1,15 @@
 const domain = "https://www.randyconnolly.com/funwebdev/3rd/api/f1";
+const goToBeginning = "hold CTRL and click on this variable to return to the top!";
 
 document.addEventListener("DOMContentLoaded", () => {
+    // MAIN PROGRAM
+    const goToMainStart = "hold CTRL and click on this variable to return to the top/bottom of the main program section!";
+    
     setupRacesData();
     setupQualifyings();
     setupResults();
     setupFaveLists();
-    
+
     const seasons = $("select#seasons");
     seasons.addEventListener("change", () => {
         const year = seasons.value;
@@ -20,14 +24,12 @@ document.addEventListener("DOMContentLoaded", () => {
         eventClickResult(year, raceData);
     });
 
-    // const homeBtn = $("#browse #homeBtn"); WORKS NOW
     const homeBtns = document.querySelectorAll("#homeBtn");
     homeBtns.forEach(btn => {
         btn.addEventListener("click", () => {
             location.reload();
         });
     });
-    
 
     const faveBtn = $("#browse #faveBtn");
     faveBtn.addEventListener("click", () => {
@@ -42,46 +44,33 @@ document.addEventListener("DOMContentLoaded", () => {
         favouritesDialog.show();
 
         eventCloseDialog("dialog#favourites", favouritesDialog);
-        // event handler for emptying the favourites list
         eventEmptyFavouriteLists();
     });
 
+    goToMainStart;
 
 
 
-
-
-
-
-
-
-
-
-
-
-    // function declarations and expressions
+    // HELPER FUNCTION DECLARATIONS AND EXPRESSIONS
+    const goToHelperStart = "hold CTRL and click on this variable to return to the top/bottom of the helper functions section!";
     function $(selector) {
         return document.querySelector(selector);
     }
-
-    // FETCH ALL DATA NEEDED
-    // instead of only storing the user's selected season, store all the season
-    // - doing it the first way kept giving me errors when trying to sort the data.
-    //   it only works the second time the user chooses the same option, 
-    //   since that data is already in local storage 
+    
+    // SETUP - retrieves and stores large data into the localStorage
     function setupRacesData() {
         const racesList = [2020, 2021, 2022, 2023];
+        
         racesList.forEach((year) => {
             if (!localStorage.getItem(`${year}Races`)) {
                 const url = `${domain}/races.php?season=${year}`;
                 fetchAndStore(url, `${year}Races`);
             }
-        })
+        });
     }
-
-    // see above
     function setupQualifyings() {
         const racesList = [2020, 2021, 2022, 2023];
+        
         racesList.forEach((year) => {
             if (!localStorage.getItem(`${year}Qualifying`)) {
                 const url = `${domain}/qualifying.php?season=${year}`;
@@ -89,9 +78,9 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
-
     function setupResults() {
         const racesList = [2020, 2021, 2022, 2023];
+        
         racesList.forEach((year) => {
             if (!localStorage.getItem(`${year}Results`)) {
                 const url = `${domain}/results.php?season=${year}`;
@@ -99,20 +88,21 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
-
     function setupFaveLists() {
         const faveLists = ["faveCircuits", "faveDrivers", "faveConstructors"]
         faveLists.forEach(list => {
             if (!localStorage.getItem(list)) {
                 localStorage.setItem(list, JSON.stringify([]));
             }
-        });
-        
+        });   
     }
 
-    // FETCHING
+    // FETCH - fetches the data from the web API
+    // fetchAndStore() - fetches large data from the web API and stores it to the localStorage
+    //                 - called within setup functions to avoid issues with timing, etc.
     function fetchAndStore(url, key) {
         console.log("key is not in local storage! fetching and storing...");
+        
         fetch(url)
         .then(response => {
             if (response.ok) {
@@ -125,9 +115,8 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(data => localStorage.setItem(key, JSON.stringify(data)))
         .catch(error => console.error("uh oh, an error occured: ", error));
     }
-
-     // for fetching smaller data. dialogs will be loaded along the way
-     function fetchAndLoad(url, loadFunction) {
+    // fetchAndLoad() - fetches and displays the dialogs/modals
+    function fetchAndLoad(url, loadFunction) {
         fetch(url)
         .then(response => {
             if (response.ok) {
@@ -141,30 +130,27 @@ document.addEventListener("DOMContentLoaded", () => {
         .catch(error => console.error("uh oh, an error occured: ", error));
     }
 
-    // TOGGLE VIEWS
+    // TOGGLE VIEWS - switches visibility for the chosen view(s)
     function toggleMainView(selector1, selector2) {
         selector1.classList.toggle("hidden");
         selector2.classList.toggle("hidden");
     }
-
     const hide = (selector) => selector.classList.add("hidden");
-
     const show = (selector) => selector.classList.remove("hidden");
-
-    // LOAD 
+    
+    // LOAD - fills in the information needed and displays the views
+    // loadRaces() - displays the list of races from the chosen year
     function loadRaces(year, raceData) {
-        // title
         $("#races h3").innerHTML = "";
         $("#races h3").textContent = `${year} Races`;
 
-        // table
         const racesTableData = $("#racesTable tbody");
         raceData.forEach(r => {
-            const row = document.createElement("tr");
-            const round = document.createElement("td");
-            const name = document.createElement("td");
+            const row       = document.createElement("tr");
+            const round     = document.createElement("td");
+            const name      = document.createElement("td");
             const resultBtn = document.createElement("td"); 
-            const btn = document.createElement("button");
+            const btn       = document.createElement("button");
 
             round.setAttribute("id", "round");
             round.textContent = r.round;
@@ -185,14 +171,13 @@ document.addEventListener("DOMContentLoaded", () => {
             racesTableData.appendChild(row);
         });
 
-        // image
         const raceImg = $("#racesImage");
         const img = document.createElement("img");
         img.setAttribute("src", `images/${year}_raceImg.jpg`);
         img.setAttribute("alt", "A photo that corresponds to the chosen year.");
         raceImg.appendChild(img);
     }
-
+    // loadRaceResultsDesc() - displays the brief description of the chosen race
     function loadRaceResultsDesc(e, year, raceData) {
         const result = raceData.find(result => result.name == e.target.id);
                 
@@ -200,64 +185,49 @@ document.addEventListener("DOMContentLoaded", () => {
         $("#raceResultsDesc h3").textContent += `${year} ${e.target.id}`;
         
         const pList = document.querySelectorAll("#raceResultsDesc p span");
-        const r = [result.name, result.round, result.year, result.circuit.name, result.date, result.url];
+        const dataList = [result.name, result.round, result.year, result.circuit.name, result.date, result.url];
         let i = 0;
-
+  
         pList.forEach(span => {
             span.innerHTML = "";            
-            span.textContent += r[i];
+            span.textContent += dataList[i];
 
-            if (r[i] == `${result.circuit.name}`) {  
+            if (dataList[i] == `${result.circuit.name}`) {  
                 const faveIcon = document.createElement("img");
                 faveIcon.setAttribute("src", "images/faved_icon.png");
                 faveIcon.setAttribute("class", "self-center mx-2 w-4");
                 
-                if (isInFavourite("faveCircuits", `${r[i]}`)) {
+                if (isInFavourite("faveCircuits", `${dataList[i]}`)) {
                     span.classList.add("flex");
                     span.appendChild(faveIcon);
                 }
             }
             i++;
         });
+
         eventClickCircuit(result);
-        
-        
     }
-
-   
-
+    // loadQualifying() - displays the qualifying section for the chosen race
     function loadQualifying(e, year) {
         const key = `${year}Qualifying`;
         const qualifyData = JSON.parse(localStorage.getItem(key));
-        // find the chosen race's qualifying
         const raceQualify = qualifyData.filter(q => q.race.name == e.target.id)
         
-        // default: sorted by position
-        // must have a function that sorts this data first based on what heading was clicked!
-        // to do: finish adding the stuff in good draft, test the good draft in github
-        //        start the sorting functions
         raceQualify.sort((a, b) => { if (a.position < b.position) return -1 });
-
+        
         const qualify = $("#qualify tbody");
         qualify.innerHTML = "";
         raceQualify.forEach(q => {
-            const row = document.createElement("tr");
-            const pos = document.createElement("td");
-            const name = document.createElement("td");
+            const row       = document.createElement("tr");
+            const pos       = document.createElement("td");
+            const name      = document.createElement("td");
             const construct = document.createElement("td");
-            const q1 = document.createElement("td");
-            const q2 = document.createElement("td");
-            const q3 = document.createElement("td");
-            const tdList = [pos, name, construct, q1, q2, q3];
-
-            /*
-            for (let d of tdList) {
-                d.innerHTML = "";
-            } NOT NEEDED SINCE qualify.innerHtml clears it all! */
+            const q1        = document.createElement("td");
+            const q2        = document.createElement("td");
+            const q3        = document.createElement("td");
+            const tdList    = [pos, name, construct, q1, q2, q3];
 
             pos.textContent = q.position;
-            // name.textContent = `${q.driver.forename} ${q.driver.surname}`;
-            // construct.textContent = q.constructor.name;
             q1.textContent = q.q1;
             q2.textContent = q.q2;
             q3.textContent = q.q3;
@@ -286,25 +256,15 @@ document.addEventListener("DOMContentLoaded", () => {
                     btn.setAttribute("class", "flex text-left hover:text-indigo-750");
                     td.appendChild(btn);
                 }
-                
                 td.setAttribute("class", "pr-4");
-                
                 row.appendChild(td);
             }
-
             qualify.appendChild(row);
         });
-
         eventClickDriver(year, raceQualify);
         eventClickConstructor(year, raceQualify);
-        // console.log("raceQualify in loadQualifying:");
-        // console.log(raceQualify);
-
-        // EVENT HANDLER FOR CLICKING THE CONSTRUCTOR
-        
-
     }
-
+    // loadRankingTable() - displays the ranking for the chosen race
     function loadRankingTable(year, raceResult) {
         const points = raceResult.sort((a, b) => { if (a.points > b.points) return 1 });
         const rankingTable = $("#result #ranking tbody");
@@ -316,25 +276,20 @@ document.addEventListener("DOMContentLoaded", () => {
             const btn = document.createElement("button");
 
             place.innerHTML = "";
+            place.setAttribute("id", "name");
 
             btn.textContent = `${points[i].driver.forename} ${points[i].driver.surname}`;
             btn.setAttribute("class", "hover:text-indigo-750");
             
-            place.setAttribute("id", "name");
             place.appendChild(btn);
-
             row.appendChild(place);
         }
         rankingTable.appendChild(row);
 
-        // console.log("points in loadRankingTable: ")
-        // console.log(points);
         eventClickDriver(year, points);
     }
-
+    // loadResultTable() - displays the result for the chosen race
     function loadResultTable(year, raceResult) {
-        // default: sorted by position
-        // must have a function that sorts this data first based on what heading was clicked!
         const result = raceResult.sort((a, b) => { if (a.position < b.position) return -1 });
         const resultTable = $("#result #resultTable tbody");
         
@@ -376,38 +331,30 @@ document.addEventListener("DOMContentLoaded", () => {
                     btn.setAttribute("class", "flex text-left hover:text-indigo-750");
                     td.appendChild(btn);
                 }
-
                 td.setAttribute("class", "pr-4");
-
                 row.appendChild(td);
             }
-
             resultTable.appendChild(row);
-        })
-
+        });
         eventClickDriver(year, result);
         eventClickConstructor(year, result);
     }
-
+    // loadResult() - displays the result section for the chosen race
     function loadResult(e, year) {
         const key = `${year}Results`;
         const resultData = JSON.parse(localStorage.getItem(key));
-        // find the chosen race's result
         const raceResult = resultData.filter(r => r.race.name == e.target.id);
 
-        // for ranking table
         loadRankingTable(year, raceResult);
 
-        // for result table
         loadResultTable(year, raceResult);
     }
-
+    // CIRCUIT DIALOG
+    // loadCircuit() - displays the circuit dialog
     function loadCircuit(circuitData) {
         const circuitName = $("#raceResultsDesc p#circuit");
         circuitName.addEventListener("click", () => {
-            // select the dialog=circuit
             const circuitDialog = $("dialog#circuit");
-            // select the spans in the div=circuitDetails
             const pList = document.querySelectorAll("#circuitDetails p span");
             const dataList = [circuitData.name, circuitData.location, circuitData.country, circuitData.url];
             let i = 0;
@@ -416,29 +363,19 @@ document.addEventListener("DOMContentLoaded", () => {
                 span.innerHTML = "";
                 span.textContent += dataList[i];
                 i++;
-            })
-
+            });
             circuitDialog.show();
-    
-            // event handler to add the circuit to the faveCircuits array in localStorage
-            // eventAddToFaveCircuits(circuitData); 
-            // testing [WORKS! <3]
-
-            eventAddToFavourites("dialog#circuit", "faveCircuits", "#circuitDetails p#name span", `${circuitData.name}`, refreshCircuit);
             
-                                  
+            eventAddToFavourites("dialog#circuit", "faveCircuits", "#circuitDetails p#name span", `${circuitData.name}`, refreshCircuit);
         });
     }
-
-    //
+    // DRIVER DIALOG
+    // loadDriverDetails() - displays the driver details section
     function loadDriverDetails(driverData) {
-        // const driverDialog = $("dialog#driver");
         const nameBtn = document.querySelectorAll("td#name button");
         nameBtn.forEach(d => {
             if (d.textContent == `${driverData.forename} ${driverData.surname}`) {
-                // WORKS console.log(d.textContent);
                 const pList = document.querySelectorAll("#driverDetails p span");
-                // calculate age (basic caluclation/only by year orz)
                 const age = 2024 - parseInt(driverData.dob.split("-", 1), 10);
                 const dataList = [`${driverData.forename} ${driverData.surname}`, driverData.dob, age, driverData.nationality, driverData.url];
                 let i = 0;
@@ -448,35 +385,22 @@ document.addEventListener("DOMContentLoaded", () => {
                     span.textContent += dataList[i];
                     i++;
                 });
-
-                // eventAddToFaveDrivers(driverData);
                 eventAddToFavourites("dialog#driver", "faveDrivers", "#driverDetails p#name span", `${driverData.forename} ${driverData.surname}`, refreshDriver);
             }
-        })
+        });
     }
-
-    /* [domain]/driverResults.php?driver=piastri&season=2023 for race results of a specific driver */  
+    // loadDriverRaceResults() - displays the driver's race results section
     function loadDriverRaceResults(driverResultData) {
-        // const driverRaceResults = $("#raceResultsDriver tbody");
         const key = `${driverResultData[0].year}Results`;
-        // console.log(`${driverResultData[0].year}`);
         const raceData = JSON.parse(localStorage.getItem(key));
+
         raceData.sort((a, b) => { if (a.round < b.round) return -1 });
         driverResultData.sort((a, b) => { if (a.round < b.round) return -1 });
 
-        // for the points
         const results = raceData.filter(r => r.driver.ref == driverResultData[0].driverRef);
-        const resultTable = $("#raceResultsDriver tbody");
-        
-        /*
-        console.log("results in loadDriverRaceResults: ");
-        console.log(results);
-
-        console.log("raceData in loadDriverRaceResults: ");
-        console.log(raceData);
-        */
-
+        const resultTable = $("#raceResultsDriver tbody");        
         let i = 0;
+
         resultTable.innerHTML = "";
         driverResultData.forEach(d => {
             const row = document.createElement("tr");
@@ -487,7 +411,6 @@ document.addEventListener("DOMContentLoaded", () => {
             const tdList = [rnd, name, pos, pts];
             const dataList = [d.round, d.name, d.positionOrder, results[i].points];
             
-            // WORKS! dataList.forEach(test => console.log(test));
             for (let d = 0; d < tdList.length; d++) {
                 tdList[d].textContent = dataList[d];
                 tdList[d].setAttribute("class", "pr-5");
@@ -497,12 +420,13 @@ document.addEventListener("DOMContentLoaded", () => {
             i++;
         });
     }
-
+    // CONSTRUCTOR DIALOG
+    // loadConstructorDetails() - displays the constructor details section
     function loadConstructorDetails(constructData) {
         const constructBtn = document.querySelectorAll("td#construct button"); 
+        
         constructBtn.forEach(c => {
             if (c.textContent == constructData.name) {
-                // v console.log("loadConstructorDetails: " + constructData.name);
                 const pList = document.querySelectorAll("#constructDetails p span");
                 const dataList = [constructData.name, constructData.nationality, constructData.url];
                 let i = 0;
@@ -512,23 +436,15 @@ document.addEventListener("DOMContentLoaded", () => {
                     span.textContent += dataList[i];
                     i++;
                 });
-
                 eventAddToFavourites("dialog#constructor", "faveConstructors", "#constructDetails p#name span", constructData.name, refreshConstructor);
             }
-
         });
     }
-
+    // loadConstructorRaceResults() - displays the constructor's race results
     function loadConstructorRaceResults(constructResultData) {
-        // const key = `${constructResultData[0].year}Results`;
-        // const raceData = JSON.parse(localStorage.getItem(key));
-        
-        // raceData.sort((a, b) => { if (a.round < b.round) return -1 });
         constructResultData.sort((a, b) => { if (a.round < b.round) return -1 });
-
-        // const results = raceData.filter(r => r.constructor.id == constructResultData[0].);
-        // console.log(constructResultData);
         const resultTable = $("#raceResultsConstruct tbody");
+
         resultTable.innerHTML = "";
         constructResultData.forEach(c => {
             const row = document.createElement("tr");
@@ -539,7 +455,6 @@ document.addEventListener("DOMContentLoaded", () => {
             const tdList = [rnd, name, driver, pos];
             const dataList = [c.round, c.name, `${c.forename} ${c.surname}`, c.positionOrder];
 
-            // console.log("dataList: ");
             for (let i = 0; i < tdList.length; i++) {
                 tdList[i].textContent = dataList[i];
                 tdList[i].setAttribute("class", "pr-5");
@@ -548,14 +463,8 @@ document.addEventListener("DOMContentLoaded", () => {
             resultTable.appendChild(row);
         });
     }
-
+    // loadFavourites() - displays the list of favourite circuits, drivers, and constructors
     function loadFavourites(whichFaveArray, targetSelector) {
-        /*
-        if (!localStorage.getItem(whichFaveArray)) {
-            localStorage.setItem(whichFaveArray, JSON.stringify([]));
-        } 
-        */
-
         const aFaveList = JSON.parse(localStorage.getItem(whichFaveArray));
         const ul = $(targetSelector);
         ul.innerHTML = "";
@@ -570,16 +479,14 @@ document.addEventListener("DOMContentLoaded", () => {
             aFaveList.forEach(fave => {
                 const li = document.createElement("li");
                 li.textContent = fave;
-                // console.log(li.textContent);
                 li.setAttribute("class", "px-3");
                 ul.appendChild(li);
             });
         }  
     }
-    
 
-    // EVENT HANDLERS
-    
+    // EVENTS - handlers for certain events
+    // eventClickResult() - event handler for clicking the [Result] button on the list of races for the chosen year
     function eventClickResult(year, raceData) {
         const racesTable = $("#racesTable tbody");
         racesTable.addEventListener("click", (e) => {
@@ -588,14 +495,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 show($("#raceResults"));
 
                 loadRaceResultsDesc(e, year, raceData);
-
                 loadQualifying(e, year);
-
                 loadResult(e, year);
             }
         });
     }
-    // event handler for showing the circuit dialog
+    // DIALOG EVENT HANDLERS
+    // eventClickCircuit() - event handler for clicking the circuit name on the chosen race's result description
     function eventClickCircuit(result) {
         const circuitId = result.circuit.id;
         const circuitDialog = $("dialog#circuit");
@@ -603,18 +509,14 @@ document.addEventListener("DOMContentLoaded", () => {
         
         fetchAndLoad(url, loadCircuit);  
 
-        // event handler for closing the circuit dialog with the close buttons
         eventCloseDialog("dialog#circuit", circuitDialog);
     };
-
-    // (!!!)
-        // (!) event listener for clicking name or constructor (name for now! should be general enough to be used in Results too)
+    // eventClickDriver() - event handler for clicking a driver's name on the qualifying and result sections
     function eventClickDriver(year, data) {
         const nameBtn = document.querySelectorAll("td#name button");
         
         nameBtn.forEach(d => {
             d.addEventListener("click", () => {
-                // figure out which driver got clicked
                 const findDriver = data.find(name => d.textContent == `${name.driver.forename} ${name.driver.surname}`);
                 const driverId = findDriver.driver.id;
                 const driverRef = findDriver.driver.ref;
@@ -631,22 +533,18 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
     }
-
+    // eventClickConstructor() - event handler for clicking a constructor's name on the qualifying and result sections
     function eventClickConstructor(year, data) {
         const constructBtn = document.querySelectorAll("td#construct button");
 
         constructBtn.forEach(c => {
             c.addEventListener("click", () => {
                 const findConstruct = data.find(construct => c.textContent == construct.constructor.name);
-                // console.log(`findConstruct in eventClickConstructor:`);
-                // console.log(findConstruct);
                 const constructId = findConstruct.constructor.id;
                 const constructRef = findConstruct.constructor.ref;
                 const constructorDialog = $("dialog#constructor");
                 const url1 = `${domain}/constructors.php?id=${constructId}`;
                 const url2 = `${domain}/constructorResults.php?constructor=${constructRef}&season=${year}`;
-
-                // console.log(url2); // for test
 
                 fetchAndLoad(url1, loadConstructorDetails);
                 fetchAndLoad(url2, loadConstructorRaceResults);
@@ -655,11 +553,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 eventCloseDialog("dialog#constructor", constructorDialog);
             });
-            
         });
     }
-
-    // event handler for closing a dialog
+    // eventCloseDialog() - event handler for closing a circuit, driver, constructor, and favourites dialog
     function eventCloseDialog(whichDialog, dialogSelector) {
         const closeBtn = document.querySelectorAll(`${whichDialog} button#close`);
         closeBtn.forEach(button => {
@@ -668,16 +564,11 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
     }
-
-
-    // MODIFY EVENT HANDLERS FOR ADDING TO FAVOURITES (WORKS!)
+    // eventAddToFavourites() - event handler for adding a circuit, driver, or a constructor to the favourites list
     function eventAddToFavourites(whichDialog, whichFaveArray, targetSelector, data, refreshFunction) {
         const faveBtn = $(`${whichDialog} button#addToFave`);
         const selector = $(targetSelector);
         
-        /* if (!localStorage.getItem(whichFaveArray)) {
-            localStorage.setItem(whichFaveArray, JSON.stringify([]));
-        } */
         faveBtn.addEventListener("mouseover", () => {
             const aFaveList = JSON.parse(localStorage.getItem(whichFaveArray));
 
@@ -689,11 +580,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 faveBtn.innerHTML = "";
                 faveBtn.textContent = "Favourite";
             }
-        })
+        });
         faveBtn.addEventListener("mouseout", () => {
             faveBtn.innerHTML = "";
             faveBtn.textContent = "Favourite";
-        })
+        });
 
         faveBtn.addEventListener("click", () => {
             const aFaveList = JSON.parse(localStorage.getItem(whichFaveArray));
@@ -701,14 +592,11 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!aFaveList.find(fave => fave == data) && data == selector.textContent) {
                 aFaveList.push(selector.textContent);
                 localStorage.setItem(whichFaveArray, JSON.stringify(aFaveList));
-                // when a circuit/driver/constructer is added to the favourites list, the favourited icon will appear immediately
                 refreshFunction(data);
             }
-
-        })
+        });
     }
-    
-    //
+    // eventEmptyFavouriteLists - clears every list of favourite circuits, drivers, and constructors in the favourites dialog
     function eventEmptyFavouriteLists() {
         const emptyFavesBtn = $("#favourites #empty");
         emptyFavesBtn.addEventListener("click", () => {
@@ -720,13 +608,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 loadFavourites(faveLists[i], selectorLists[i]);
             }
 
-            // remove the icons immediately after clearing favourites
             removeFavedIcons();
             
         }); 
     }
-
-    // helper function to see if a circuit/name/constructor is in the list
+    
+    // OTHER
+    // isInFavourite() - checks if a circuit/driver/constructor is in the favourites list
     function isInFavourite(whichFaveArray, name) {
         const aFaveList = JSON.parse(localStorage.getItem(whichFaveArray));
         let found;
@@ -744,7 +632,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return found;
     }
 
-
+    // UPDATE FAVOURITED ICONS - shows the icons beside a circuit/driver/constructor immediately after adding to favourites
     function refreshCircuit(data) {
         const circuit = $("#raceResultsDesc p#circuit span")
         const faveIcon = document.createElement("img");
@@ -756,8 +644,8 @@ document.addEventListener("DOMContentLoaded", () => {
             circuit.appendChild(faveIcon);
         }
     }
-
     function refreshDriver(data) {
+        // driver name in the Qualifying section
         const driversQualify = document.querySelectorAll("#qualify tbody td#name button");
         driversQualify.forEach(driver => {
             if (driver.textContent == data) {
@@ -771,6 +659,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
+        // driver name in the Result section
         const driversResult = document.querySelectorAll("#result #resultTable tbody td#name button");
         driversResult.forEach(driver => {
             if (driver.textContent == data) {
@@ -784,8 +673,8 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
-
     function refreshConstructor(data) {
+        // constructor name in the Qualifying section
         const constructorsQualify = document.querySelectorAll("#qualify tbody td#construct button");
         constructorsQualify.forEach(construct => {
             if (construct.textContent == data) {
@@ -799,6 +688,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
+        // constructor name in the Result section
         const constructorsResult = document.querySelectorAll("#result #resultTable tbody td#construct button");
         constructorsResult.forEach(construct => {
             if (construct.textContent == data) {
@@ -812,7 +702,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
-
     function removeFavedIcons() {
         const circuitIcon = $("#raceResultsDesc p#circuit span img");
         if (circuitIcon != null) {
@@ -844,101 +733,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 icon.remove();
             }
         });
-
-
-
     }
 
-
-    // event handler for adding to favourite circuits in localStorage (no longer generalized to make it specific for each list)  
-    function eventAddToFaveCircuits(circuitData) {
-        const faveBtn = $("dialog#circuit button#addToFave");
-        const circuitName = $("#circuitDetails p#name span");
-        
-        // if the array doesn't exist yet in localStorage, create one
-        if (!localStorage.getItem("faveCircuits")) {
-            // console.log(`${addTo} does not exist in local storage!`);
-            localStorage.setItem("faveCircuits", JSON.stringify([]));
-        }
-
-        // event to show that a circuit is/has been added to the faveCircuits array
-        faveBtn.addEventListener("mouseover", () => {
-            const aFaveList = JSON.parse(localStorage.getItem("faveCircuits"));
-
-            if (aFaveList.find(fave => fave == circuitData.name) && circuitData.name == circuitName.textContent) {
-                faveBtn.innerHTML = "";
-                faveBtn.textContent = "Favourited!";
-            }
-            else {
-                faveBtn.innerHTML = "";
-                faveBtn.textContent = "Favourite";
-            }
-        });
-        faveBtn.addEventListener("mouseout", () => {
-            faveBtn.innerHTML = "";
-            faveBtn.textContent = "Favourite";
-        });
-
-        // event to add the chosen circuit to the faveCircuits array
-        faveBtn.addEventListener("click", () => {
-            const aFaveList = JSON.parse(localStorage.getItem("faveCircuits"));
-
-            if (!aFaveList.find(fave => fave == circuitData.name) && circuitData.name == circuitName.textContent) {
-                aFaveList.push(circuitName.textContent);
-                // console.log("pushing: " + circuitName.textContent);
-                localStorage.setItem("faveCircuits", JSON.stringify(aFaveList));
-            }
-        });
-    }
-
-    // FUCKING FINALLY I THINK ITS DONEEEEEE???
-    // is it possible to generalize the eventAddToFavourites? (parameter has to be a specific value/field - ie. data = `${driverData.forename} ${driverData.surname}` or `${circuitData.name}`)
-    function eventAddToFaveDrivers(driverData) {
-        const faveBtn = $("dialog#driver button#addToFave");
-        const driverName = $("#driverDetails p#name span");
-        // there's nothing here when it gets run (delayed or whatever)
-        
-        // console.log(driverName.textContent);
-
-        // if the array doesn't exist yet in localStorage, create one
-        if (!localStorage.getItem("faveDrivers")) {
-            console.log(`faveDrivers does not exist in local storage!`);
-            localStorage.setItem("faveDrivers", JSON.stringify([]));
-        }
-
-        // event to show that a circuit is/has been added to the faveCircuits array
-        faveBtn.addEventListener("mouseover", () => {
-            const aFaveList = JSON.parse(localStorage.getItem("faveDrivers"));
-
-            // driverData.forename and driverData.surname
-            
-            if (aFaveList.find(fave => fave == `${driverData.forename} ${driverData.surname}`) && 
-                driverName.textContent == `${driverData.forename} ${driverData.surname}`) {
-                faveBtn.innerHTML = "";
-                faveBtn.textContent = "Favourited!";
-            }
-            else {
-                faveBtn.innerHTML = "";
-                faveBtn.textContent = "Favourite";
-            }
-        });
-        faveBtn.addEventListener("mouseout", () => {
-            faveBtn.innerHTML = "";
-            faveBtn.textContent = "Favourite";
-        });
-
-        // event to add the chosen circuit to the faveCircuits array
-        faveBtn.addEventListener("click", () => {
-            const aFaveList = JSON.parse(localStorage.getItem("faveDrivers"));
-
-            if (!aFaveList.find(fave => fave == `${driverData.forename} ${driverData.surname}`) && 
-            driverName.textContent == `${driverData.forename} ${driverData.surname}`) {
-                aFaveList.push(driverName.textContent);
-                // console.log("pushing: " + circuitName.textContent);
-                localStorage.setItem("faveDrivers", JSON.stringify(aFaveList));
-            }
-        });
-    }
+    goToHelperStart;
 
 
+
+    
 });
+
+goToBeginning;

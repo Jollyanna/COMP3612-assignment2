@@ -12,7 +12,7 @@
     
     <link href="css/output.min.css" rel="stylesheet">
     <!-- <script src="assign2.js"></script> -->
-    <script src="assign2.js"></script>
+    <script src="assign2_final.js"></script>
 
 </head>
 
@@ -24,7 +24,7 @@
             <!-- header/navigation for HOME VIEW -->
             <header class="p-3 bg-pink-150 shadow"> 
                 <nav class="flex items-center">
-                    <a href="#" class="px-7"><img src="images/F1_logo.png" alt="F1 Logo" class="w-14 lg:w-24"/></a>
+                    <button id="homeBtn" class="px-3 lg:px-7"><img src="images/F1_logo.png" alt="F1 Logo" class="w-14 lg:w-24"/></button>
                     <h1 class="self-center font-roboto_con font-bold text-xl lg:text-2xl">Formula One Dashboard</h1>
                 </nav>
             </header>
@@ -87,7 +87,7 @@
             <!-- header/navigation for RACES VIEW -->
             <header class="p-3 bg-pink-150 shadow">
                 <nav class="flex items-center">
-                    <a href="#" class="px-3 lg:px-7"><img src="images/F1_logo.png" alt="F1 Logo" class="w-14 lg:w-24"/></a>
+                    <button id="homeBtn" class="px-3 lg:px-7"><img src="images/F1_logo.png" alt="F1 Logo" class="w-14 lg:w-24"/></button>
                     <h1 class="self-center font-roboto_con font-bold text-xl lg:text-2xl">Formula One Dashboard</h1>
                     
                     <div class="flex items-center ml-auto text-center font-roboto_con">
@@ -228,7 +228,7 @@
         <!-- CONSTRUCTOR POPUP -->
         <dialog id="constructor">
             <!-- guided by (and modified, if any, from): https://tailwindui.com/components/application-ui/overlays/modal-dialogs -->
-            <div class="fixed inset-0 bg-gray-500/75 transition-opacity" data-modal-backdrop="static" aria-hidden="true">
+            <div class="fixed inset-0 bg-gray-500/75 transition-opacity" data-modal-backdrop="static">
                 <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
                     <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
 
@@ -310,7 +310,7 @@
         <!-- DRIVER POPUP -->
         <dialog id="driver">
             <!-- guided by (and modified, if any, from): https://tailwindui.com/components/application-ui/overlays/modal-dialogs -->
-            <div class="fixed inset-0 bg-gray-500/75 transition-opacity" data-modal-backdrop="static" aria-hidden="true">
+            <div class="fixed inset-0 bg-gray-500/75 transition-opacity" data-modal-backdrop="static">
                 <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
                     <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
 
@@ -397,11 +397,10 @@
         <!-- CIRCUIT POPUP -->
         <dialog id="circuit">
             <!-- guided by (and modified, if any, from): https://tailwindui.com/components/application-ui/overlays/modal-dialogs -->
-            <div class="fixed inset-0 bg-gray-500/75 transition-opacity" data-modal-backdrop="static" aria-hidden="true">
+            <div class="fixed inset-0 bg-gray-500/75 transition-opacity" data-modal-backdrop="static">
                 <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
                     <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
                         
-                        <!-- [NEW] max-w-4xl; justify-center added to the second div -->
                         <!-- guided by (and modified, if any, from): https://www.creative-tim.com/twcomponents/component/tailwind-css-horizontal-card-by-material-tailwind -->
                         <div class="px-4 py-8 flex flex-wrap min-h-screen items-center justify-center">
                             <div class="p-4 relative flex flex-wrap w-full max-w-4xl flex-row rounded-xl bg-cream-50 bg-clip-border shadow-md justify-center">
@@ -462,69 +461,79 @@
         <!---->
 
         <!-- FAVOURITES POPUP -->
-        <aside id="favourites" class="hidden">
-            <!-- guided by (and modified, if any, from): https://www.creative-tim.com/twcomponents/component/tailwind-css-horizontal-card-by-material-tailwind -->
-            <div class="px-4 py-8 flex flex-wrap min-h-screen items-center justify-center">
-                <div class="p-4 relative flex flex-wrap items-center justify-center w-full max-w-7xl flex-row rounded-xl bg-cream-50 bg-clip-border shadow-md">
-                    <!-- close button -->
-                    <div class="basis-full">
-                        <button id="close" 
-                            class="p-1 m-1 px-2 mx-auto float-right text-md font-bold text-center rounded 
-                                bg-indigo-750 text-cream-50 font-roboto_con 
-                                hover:bg-cream-50 hover:text-blue-960">
-                            X
-                        </button> <!-- end of close button -->
-                        
-                        <!-- title -->
-                        <h3 class="text-center font-roboto_con font-medium text-2xl">Favourites</h3>
-                    </div> 
-                
-                    <!-- list of favourite drivers -->
-                    <div id="faveDrivers" class="border-8 border-indigo-750 m-2 p-2 bg-pink-150 max-w-xl">
-                        <h3 class="text-center font-roboto_con font-medium text-xl">Drivers</h3>
-                        
-                        <ul id="drivers" class="font-pt_sans overflow-y-scroll h-96 max-w-xs">
-                            <!--(JS)-->
-                        </ul>
-                    </div> <!-- end of list of favourite drivers -->
+        <dialog id="favourites">
+            <!-- guided by (and modified, if any, from): https://tailwindui.com/components/application-ui/overlays/modal-dialogs -->
+            <div class="fixed inset-0 bg-gray-500/75 transition-opacity" data-modal-backdrop="static">
+                <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+                    <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
 
-                    <div id="faveConsts" class="border-8 border-indigo-750 m-2 p-2 bg-pink-150 max-w-xl">
-                        <h3 class="text-center font-roboto_con font-medium text-xl">Constructors</h3>
-                        
-                        <ul id="consts" class="font-pt_sans overflow-y-scroll h-96 max-w-xs">
-                            <!--(JS)-->
-                        </ul> 
-                    </div> <!-- end of list of favourite constructors -->
+                        <!-- guided by (and modified, if any, from): https://www.creative-tim.com/twcomponents/component/tailwind-css-horizontal-card-by-material-tailwind -->
+                        <div class="px-4 py-8 flex flex-wrap min-h-screen items-center justify-center">
+                            <div class="p-4 relative flex flex-wrap items-center justify-center w-full max-w-7xl flex-row rounded-xl bg-cream-50 bg-clip-border shadow-md">
+                                <!-- close button -->
+                                <div class="basis-full">
+                                    <button id="close" 
+                                        class="p-1 m-1 px-2 mx-auto float-right text-md font-bold text-center rounded 
+                                            bg-indigo-750 text-cream-50 font-roboto_con 
+                                            hover:bg-cream-50 hover:text-blue-960">
+                                        X
+                                    </button> <!-- end of close button -->
+                                    
+                                    <!-- title -->
+                                    <h3 class="text-center font-roboto_con font-medium text-2xl">Favourites</h3>
+                                </div> 
+                            
+                                <!-- list of favourite drivers -->
+                                <div id="faveDrivers" class="border-8 border-indigo-750 m-2 p-2 bg-pink-150 max-w-xl">
+                                    <h3 class="text-center font-roboto_con font-medium text-xl">Drivers</h3>
+                                    <!-- og: max-w-xs-->
+                                    <ul id="drivers" class="text-left font-pt_sans overflow-y-scroll h-96 w-64 max-w-xs">
+                                        <!--(JS)-->
+                                    </ul>
+                                </div> <!-- end of list of favourite drivers -->
 
-                    <!-- list of favourite circuits -->
-                    <div id="faveCircuits" class="border-8 border-indigo-750 m-2 p-2 bg-pink-150 max-w-xl">
-                        <h3 class="text-center font-roboto_con font-medium text-xl">Circuits</h3>
-                        
-                        <ul id="circuits" class="font-pt_sans overflow-y-scroll h-96 max-w-xs">
-                            <!--(JS)-->
-                        </ul> 
-                    </div> <!-- end of list of favourite circuits -->
+                                <!-- list of favourite constructors -->
+                                <div id="faveConstructs" class="border-8 border-indigo-750 m-2 p-2 bg-pink-150 max-w-xl">
+                                    <h3 class="text-center font-roboto_con font-medium text-xl">Constructors</h3>
+                                    
+                                    <ul id="constructs" class="text-left font-pt_sans overflow-y-scroll h-96 w-64 max-w-xs">
+                                        <!--(JS)-->
+                                    </ul> 
+                                </div> <!-- end of list of favourite constructors -->
 
-                    <div class="basis-full pt-2">
-                        <!-- empty favourites button -->
-                        <button id="empty" 
-                            class="p-2 m-2 mx-auto flex justify-center text-lg text-center rounded 
-                                bg-indigo-750 text-cream-50 font-roboto_con 
-                                hover:bg-cream-50 hover:text-blue-960">
-                            Empty Favourites
-                        </button> <!-- end of empty favourites button -->
+                                <!-- list of favourite circuits -->
+                                <div id="faveCircuits" class="border-8 border-indigo-750 m-2 p-2 bg-pink-150 max-w-xl">
+                                    <h3 class="text-center font-roboto_con font-medium text-xl">Circuits</h3>
+                                    
+                                    <ul id="circuits" class="text-left font-pt_sans overflow-y-scroll h-96 w-64 max-w-xs">
+                                        <!--(JS)-->
+                                    </ul> 
+                                </div> <!-- end of list of favourite circuits -->
 
-                        <!-- close button -->
-                        <button id="close" 
-                            class="p-2 m-2 mx-auto flex justify-center text-lg text-center rounded 
-                                bg-indigo-750 text-cream-50 font-roboto_con 
-                                hover:bg-cream-50 hover:text-blue-960">
-                            Close
-                        </button> <!-- end of close button -->
+                                <div class="basis-full pt-2">
+                                    <!-- empty favourites button -->
+                                    <button id="empty" 
+                                        class="p-2 m-2 mx-auto flex justify-center text-lg text-center rounded 
+                                            bg-indigo-750 text-cream-50 font-roboto_con 
+                                            hover:bg-cream-50 hover:text-blue-960">
+                                        Empty Favourites
+                                    </button> <!-- end of empty favourites button -->
+
+                                    <!-- close button -->
+                                    <button id="close" 
+                                        class="p-2 m-2 mx-auto flex justify-center text-lg text-center rounded 
+                                            bg-indigo-750 text-cream-50 font-roboto_con 
+                                            hover:bg-cream-50 hover:text-blue-960">
+                                        Close
+                                    </button> <!-- end of close button -->
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
-        </aside> <!-- end of FAVOURITES POPUP -->
+        </dialog> <!-- end of FAVOURITES POPUP -->
 
     </main>
 </body>

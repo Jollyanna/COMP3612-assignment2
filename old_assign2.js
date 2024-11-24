@@ -23,10 +23,10 @@ document.addEventListener("DOMContentLoaded", () => {
         // loadBrowserView
         // get the chosen year's race data from local storage
 
-        // GETTING ERRORS HERE ORZ
-        const raceData = JSON.parse(localStorage.getItem(`${key}`));
+        // GETTING ERRORS HERE ORZ (NULL the first time)
+        const raceData = JSON.parse(localStorage.getItem(key));
 
-        // ERRORS HERE TOO 
+        // ERRORS HERE TOO (error disappears if the data is already in fucking storage orz)
         // sort the raceData by Round
         raceData.sort((a,b) => {if (a.round < b.round) return -1});
         
@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
         fetch(url)
         .then(response => {
             if (response.ok) {
-                response.json();
+                return response.json();
             }
             else {
                 throw new Error(`response status: ${response.status}`);
@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
         })
         .catch(error => console.error(`uh oh, an error occured: ${error}`))
         .then(data => localStorage.setItem(`${key}`, JSON.stringify(data)));
-        }
+    }
 
     function toggleMainView(selector1, selector2) {
         selector1.classList.toggle("hidden");
