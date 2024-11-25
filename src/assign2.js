@@ -184,6 +184,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             racesTableData.appendChild(row);
         });
+        altRowBackground("#racesTable tbody tr");
 
         // image
         const raceImg = $("#racesImage");
@@ -234,13 +235,65 @@ document.addEventListener("DOMContentLoaded", () => {
         
         // default: sorted by position
         // must have a function that sorts this data first based on what heading was clicked!
-        // to do: finish adding the stuff in good draft, test the good draft in github
-        //        start the sorting functions
-        raceQualify.sort((a, b) => { if (a.position < b.position) return -1 });
+        // to do: start the sorting functions       
 
+        // test: sort by constructor
+        // sortBy(...)
+        // raceQualify.sort((a, b) => { if (a.position < b.position) return -1 });
+        // WORKS! raceQualify.sort((a, b) => { if (a["constructor"]["name"] < b["constructor"]["name"]) return -1 });
+        // WORKS! raceQualify.sort((a, b) => { if (a["driver"]["surname"] < b["driver"]["surname"]) return -1 });
+
+        /*  default sorting
+        sortDataBy(raceQualify, "position");
+
+        // console.log("raceQualify sorted by name (position): ");
+        // console.log(raceQualify);
+
+        // reset the table headings format
+        const headingBtns = document.querySelectorAll("#qualifyTable button");
+        headingBtns.forEach(h => {
+            h.classList.remove("italic");
+            h.classList.remove("text-indigo-750")
+        });
+
+        // default display by position sorting
+        fillQualify(raceQualify); */
+
+        defaultSortingAndLoad(year, raceQualify, "position", "#qualifyTable button", fillQualify);
+        
+
+        eventChangeSortingAndLoad(year, raceQualify, "#qualifyTable thead", "#qualifyTable button", fillQualify);
+
+
+        
+        
+
+        // eventClickDriver(year, raceQualify);
+        // eventClickConstructor(year, raceQualify);
+        // console.log("raceQualify in loadQualifying:");
+        // console.log(raceQualify);
+    }
+
+    // MOVE TO OTHER!
+    // sortBy: string
+    function sortDataBy(data, sortBy) {
+        if (sortBy == "name") {
+            data.sort((a, b) => { if (a["driver"]["surname"] < b["driver"]["surname"]) return -1 });
+        }
+        else if (sortBy == "construct") {
+            data.sort((a, b) => { if (a["constructor"]["name"] < b["constructor"]["name"]) return -1 });
+        }
+        else {
+            data.sort((a, b) => { if (a[sortBy] < b[sortBy]) return -1 });
+        }
+
+    } //
+
+    function fillQualify(year, data) {
+        // fillInQualify(...)
         const qualify = $("#qualify tbody");
         qualify.innerHTML = "";
-        raceQualify.forEach(q => {
+        data.forEach(q => {
             const row = document.createElement("tr");
             const pos = document.createElement("td");
             const name = document.createElement("td");
@@ -291,19 +344,63 @@ document.addEventListener("DOMContentLoaded", () => {
                 
                 row.appendChild(td);
             }
-
             qualify.appendChild(row);
+
         });
 
-        eventClickDriver(year, raceQualify);
-        eventClickConstructor(year, raceQualify);
-        // console.log("raceQualify in loadQualifying:");
-        // console.log(raceQualify);
+        /* alternate row colours
+        const rows = document.querySelectorAll("#qualify tbody tr");
+        for (let i = 0; i < rows.length; i++) {
+            if (i%2 == 0) {
+                rows[i].classList.add("bg-cream-50");
+                rows[i].classList.add("bg-opacity-60");
+            }
+        } */
+        altRowBackground("#qualify tbody tr");
 
-        // EVENT HANDLER FOR CLICKING THE CONSTRUCTOR
         
 
+
+        eventClickDriver(year, data);
+        eventClickConstructor(year, data);
     }
+
+    function defaultSortingAndLoad(year, data, defaultSort, headingBtnsSelector, fillFunction) {
+        sortDataBy(data, defaultSort);
+
+        const headingBtns = document.querySelectorAll(headingBtnsSelector);
+        headingBtns.forEach(h => {
+        h.classList.remove("italic");
+        h.classList.remove("text-indigo-750");
+        });
+
+        fillFunction(year, data);
+    }
+
+    // event handler for clicking on the table headings
+    function eventChangeSortingAndLoad(year, data, tableHeadingSelector, headingBtnsSelector, fillFunction) {
+        // const qualifyTableHeading = $("#qualifyTable thead");
+        const tableHeading = $(tableHeadingSelector);
+        tableHeading.addEventListener("click", (e) => {
+            // const headingBtns = document.querySelectorAll("#qualifyTable button");
+            const headingBtns = document.querySelectorAll(headingBtnsSelector);
+            if (e.target.nodeName == "BUTTON") {
+                // change the table heading's text format when it gets clicked
+                headingBtns.forEach(h => {
+                    h.classList.remove("italic");
+                    h.classList.remove("text-indigo-750")
+                    
+                    if (h.id == e.target.id) {
+                        h.classList.add("italic");
+                        h.classList.add("text-indigo-750");
+                        sortDataBy(data, h.id);
+                        fillFunction(year, data);
+                    }
+                });
+            }
+        });
+    }
+
 
     function loadRankingTable(year, raceResult) {
         const points = raceResult.sort((a, b) => { if (a.points > b.points) return 1 });
@@ -335,11 +432,20 @@ document.addEventListener("DOMContentLoaded", () => {
     function loadResultTable(year, raceResult) {
         // default: sorted by position
         // must have a function that sorts this data first based on what heading was clicked!
-        const result = raceResult.sort((a, b) => { if (a.position < b.position) return -1 });
-        const resultTable = $("#result #resultTable tbody");
+        // const result = raceResult.sort((a, b) => { if (a.position < b.position) return -1 });
         
+        // fillResult(year, raceResult);
+
+        defaultSortingAndLoad(year, raceResult, "position", "#resultTable button", fillResult);
+
+        eventChangeSortingAndLoad(year, raceResult, "#resultTable thead", "#resultTable button", fillResult);
+
+    }
+
+    function fillResult(year, data) {
+        const resultTable = $("#result #resultTable tbody");
         resultTable.innerHTML = "";
-        result.forEach(r => {
+        data.forEach(r => {
             const row = document.createElement("tr");
             const name = document.createElement("td");
             const pos = document.createElement("td");
@@ -383,10 +489,12 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             resultTable.appendChild(row);
-        })
+        });
+       altRowBackground("#result #resultTable tbody tr");
 
-        eventClickDriver(year, result);
-        eventClickConstructor(year, result);
+
+        eventClickDriver(year, data);
+        eventClickConstructor(year, data);
     }
 
     function loadResult(e, year) {
@@ -847,6 +955,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
+    }
+    function altRowBackground(whichRows) {
+        const rows = document.querySelectorAll(whichRows);
+        for (let i = 0; i < rows.length; i++) {
+            if (i%2 == 0) {
+                rows[i].classList.add("bg-cream-50");
+                rows[i].classList.add("bg-opacity-50");
+            }
+        }
     }
 
 

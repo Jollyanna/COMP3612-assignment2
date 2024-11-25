@@ -1,5 +1,5 @@
 const domain = "https://www.randyconnolly.com/funwebdev/3rd/api/f1";
-const goToBeginning = "hold CTRL and click on this variable to return to the top!";
+const goToBeginning = "hold CTRL and click on this variable to return to the top/bottom!";
 
 document.addEventListener("DOMContentLoaded", () => {
     // MAIN PROGRAM
@@ -170,6 +170,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             racesTableData.appendChild(row);
         });
+        alternateRowColour("#racesTable tbody tr");
 
         const raceImg = $("#racesImage");
         const img = document.createElement("img");
@@ -207,17 +208,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
         eventClickCircuit(result);
     }
+    // QUALIFYING SECTION
     // loadQualifying() - displays the qualifying section for the chosen race
     function loadQualifying(e, year) {
         const key = `${year}Qualifying`;
         const qualifyData = JSON.parse(localStorage.getItem(key));
         const raceQualify = qualifyData.filter(q => q.race.name == e.target.id)
         
-        raceQualify.sort((a, b) => { if (a.position < b.position) return -1 });
+        defaultSortingAndLoad(year, raceQualify, "position", "#qualifyTable button", fillQualify);
         
+        eventChangeSortingAndLoad(year, raceQualify, "#qualifyTable thead", "#qualifyTable button", fillQualify);
+    }
+    // fillQualify() - fills in the qualifying section; used in functions within loadQualifying() 
+    function fillQualify(year, data) {
         const qualify = $("#qualify tbody");
         qualify.innerHTML = "";
-        raceQualify.forEach(q => {
+        data.forEach(q => {
             const row       = document.createElement("tr");
             const pos       = document.createElement("td");
             const name      = document.createElement("td");
@@ -261,9 +267,12 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             qualify.appendChild(row);
         });
-        eventClickDriver(year, raceQualify);
-        eventClickConstructor(year, raceQualify);
+        alternateRowColour("#qualify tbody tr");
+
+        eventClickDriver(year, data);
+        eventClickConstructor(year, data);
     }
+    // RESULT SECTION
     // loadRankingTable() - displays the ranking for the chosen race
     function loadRankingTable(year, raceResult) {
         const points = raceResult.sort((a, b) => { if (a.points > b.points) return 1 });
@@ -290,11 +299,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     // loadResultTable() - displays the result for the chosen race
     function loadResultTable(year, raceResult) {
-        const result = raceResult.sort((a, b) => { if (a.position < b.position) return -1 });
-        const resultTable = $("#result #resultTable tbody");
+        defaultSortingAndLoad(year, raceResult, "position", "#resultTable button", fillResult);
         
+        eventChangeSortingAndLoad(year, raceResult, "#resultTable thead", "#resultTable button", fillResult);
+    }
+    // fillResult() - fills in the result table section; used in functions within loadResultTable() 
+    function fillResult(year, data) {
+        const resultTable = $("#result #resultTable tbody");
         resultTable.innerHTML = "";
-        result.forEach(r => {
+        data.forEach(r => {
             const row = document.createElement("tr");
             const name = document.createElement("td");
             const pos = document.createElement("td");
@@ -336,8 +349,10 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             resultTable.appendChild(row);
         });
-        eventClickDriver(year, result);
-        eventClickConstructor(year, result);
+        alternateRowColour("#result #resultTable tbody tr");
+
+        eventClickDriver(year, data);
+        eventClickConstructor(year, data);
     }
     // loadResult() - displays the result section for the chosen race
     function loadResult(e, year) {
@@ -419,6 +434,7 @@ document.addEventListener("DOMContentLoaded", () => {
             resultTable.appendChild(row);
             i++;
         });
+        alternateRowColour("#raceResultsDriver tbody tr");
     }
     // CONSTRUCTOR DIALOG
     // loadConstructorDetails() - displays the constructor details section
@@ -462,6 +478,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             resultTable.appendChild(row);
         });
+        alternateRowColour("#raceResultsConstruct tbody tr");
     }
     // loadFavourites() - displays the list of favourite circuits, drivers, and constructors
     function loadFavourites(whichFaveArray, targetSelector) {
@@ -482,7 +499,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 li.setAttribute("class", "px-3");
                 ul.appendChild(li);
             });
-        }  
+        }
+        alternateRowColour(`${targetSelector} li`);  
     }
 
     // EVENTS - handlers for certain events
@@ -497,6 +515,26 @@ document.addEventListener("DOMContentLoaded", () => {
                 loadRaceResultsDesc(e, year, raceData);
                 loadQualifying(e, year);
                 loadResult(e, year);
+            }
+        });
+    }
+    // eventChangeSortingAndLoad() - event handler for clicking the headings in qualifying/result section to change order
+    function eventChangeSortingAndLoad(year, data, tableHeadingSelector, headingBtnsSelector, fillFunction) {
+        const tableHeading = $(tableHeadingSelector);
+        tableHeading.addEventListener("click", (e) => {
+            const headingBtns = document.querySelectorAll(headingBtnsSelector);
+            if (e.target.nodeName == "BUTTON") {
+                headingBtns.forEach(h => {
+                    h.classList.remove("italic");
+                    h.classList.remove("text-indigo-750")
+                    
+                    if (h.id == e.target.id) {
+                        h.classList.add("italic");
+                        h.classList.add("text-indigo-750");
+                        sortDataBy(data, h.id);
+                        fillFunction(year, data);
+                    }
+                });
             }
         });
     }
@@ -613,25 +651,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }); 
     }
     
-    // OTHER
-    // isInFavourite() - checks if a circuit/driver/constructor is in the favourites list
-    function isInFavourite(whichFaveArray, name) {
-        const aFaveList = JSON.parse(localStorage.getItem(whichFaveArray));
-        let found;
-
-        if (aFaveList.length == 0) {
-            found = false;
-        }
-        else if (!aFaveList.find(f => f == name)) {
-            found = false; 
-        }
-        else {
-            found = true;
-        }
-
-        return found;
-    }
-
     // UPDATE FAVOURITED ICONS - shows the icons beside a circuit/driver/constructor immediately after adding to favourites
     function refreshCircuit(data) {
         const circuit = $("#raceResultsDesc p#circuit span")
@@ -735,11 +754,61 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    // OTHER - other helper functions used in other functions
+    // isInFavourite() - checks if a circuit/driver/constructor is in the favourites list
+    function isInFavourite(whichFaveArray, name) {
+        const aFaveList = JSON.parse(localStorage.getItem(whichFaveArray));
+        let found;
+
+        if (aFaveList.length == 0) {
+            found = false;
+        }
+        else if (!aFaveList.find(f => f == name)) {
+            found = false; 
+        }
+        else {
+            found = true;
+        }
+
+        return found;
+    }
+    // sortDataBy() - sorts qualifying/results data by a chosen order
+    function sortDataBy(data, sortBy) {
+        if (sortBy == "name") {
+            data.sort((a, b) => { if (a["driver"]["surname"] < b["driver"]["surname"]) return -1 });
+        }
+        else if (sortBy == "construct") {
+            data.sort((a, b) => { if (a["constructor"]["name"] < b["constructor"]["name"]) return -1 });
+        }
+        else {
+            data.sort((a, b) => { if (a[sortBy] < b[sortBy]) return -1 });
+        }
+    }
+    // defaultSortingAndLoad() - sorts qualifying/results data in default order and displays the qualifying/result section
+    function defaultSortingAndLoad(year, data, defaultSort, headingBtnsSelector, fillFunction) {
+        sortDataBy(data, defaultSort);
+
+        const headingBtns = document.querySelectorAll(headingBtnsSelector);
+        headingBtns.forEach(h => {
+        h.classList.remove("italic");
+        h.classList.remove("text-indigo-750");
+        });
+
+        fillFunction(year, data);
+    }
+    // alternateRowColour() - alternates the background colour of the given rows
+    function alternateRowColour(whichRows) {
+        const rows = document.querySelectorAll(whichRows);
+        for (let i = 0; i < rows.length; i++) {
+            if (i % 2 == 0) {
+                rows[i].classList.add("bg-cream-50");
+                rows[i].classList.add("bg-opacity-50");
+            }
+        }
+    }
+
     goToHelperStart;
-
-
-
-    
+ 
 });
 
 goToBeginning;
