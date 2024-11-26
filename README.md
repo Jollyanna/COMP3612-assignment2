@@ -12,7 +12,7 @@ Developed by the one and only, Juliana Marie Tafalla
   If so, please wait a few seconds for the necessary data to be fetched and stored (...I did not implement a loading screen)! Otherwise, it's smooth sailing from here!
 - The response for adding a circuit/driver/constructor to the Favourites list is subtle (that is, I did not implement a toaster for it...).
   Simply hover over the <strong>[Favourite]</strong> button to see that you have added an item to the Favourites list!
-- The images and icons used in this project does not belong to me! Please see the <em>credits.txt</em> text document to see where the images and icons have been downloaded from.
+- The images and icons used in this project does not belong to me! Please see the <em>credits.txt</em> text document located in the <em>images</em> folder to see where the images and icons have been downloaded from.
 - Considering that no images were provided during/after the development, the images used for the driver and circuit is simply the home page's main image as a placeholder.
 
 <strong>index.html</strong>
