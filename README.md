@@ -30,6 +30,7 @@ Developed by the one and only, Juliana Marie Tafalla
   - ...
 - <em>HELPER FUNCTION DECLARATIONS AND EXPRESSIONS</em>
   - setup functions
+  - fetch functions
   - toggle view(s) functions
   - load (display) functions
   - events functions
