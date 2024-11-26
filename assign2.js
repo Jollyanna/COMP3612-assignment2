@@ -12,6 +12,7 @@
  *          // ...
  *      // HELPER FUNCTION DECLARATIONS AND EXPRESSIONS
  *          // setup functions
+ *          // fetch functions
  *          // toggle view(s) functions
  *          // load functions
  *          // events functions
@@ -34,7 +35,7 @@ const domain = "https://www.randyconnolly.com/funwebdev/3rd/api/f1";
 document.addEventListener("DOMContentLoaded", () => {
     // MAIN PROGRAM
     
-    // set up the necessary arrays by fetching data or creating empty arrays 
+    // sets up the necessary arrays by fetching data or creating empty arrays 
     // and storing them to localStorage
     setupRacesData();
     setupQualifyings();
