@@ -7,6 +7,8 @@ HTML, Tailwind CSS, and Javascript
 <br>In this single-page application, developed with HTML, Tailwind CSS, and Javascript, users can view Formula One race data from 2020 to 2023.</br>
 Developed by the one and only, Juliana Marie Tafalla
 
+Visit the website here: https://jollyanna.github.io/COMP3612-assignment2/
+
 <strong>General Note(s)</strong>
 - When running the website for the first time, data must be fetched and stored in the localStorage first.
   If so, please wait a few seconds for the necessary data to be fetched and stored (...I did not implement a loading screen)! Otherwise, it's smooth sailing from here!
