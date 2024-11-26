@@ -2,7 +2,12 @@
 <br>F1 Dashboard - Single-Page Application</br>
 HTML, Tailwind CSS, and Javascript
 <br><em>Juliana Marie Tafalla</em></br>
-<br><strong>General Note(s)</strong></br>
+
+<strong><em>Welcome to the Formula One (F1) Dashboard!</em></strong>
+<br>In this single-page application, developed with HTML, Tailwind CSS, and Javascript, users can view Formula One race data from 2020 to 2023.</br>
+Developed by the one and only, Juliana Marie Tafalla
+
+<strong>General Note(s)</strong>
 - When running the website for the first time, data must be fetched and stored in the localStorage first.
   If so, please wait a few seconds for the necessary data to be fetched and stored (...I did not implement a loading screen)! Otherwise, it's smooth sailing from here!
 - The response for adding a circuit/driver/constructor to the Favourites list is subtle (that is, I did not implement a toaster for it...).
